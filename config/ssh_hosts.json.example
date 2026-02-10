@@ -1,0 +1,14 @@
+[
+  {
+    "alias": "casoca",
+    "host": "prd64260.casoca.com.br",
+    "user": "salda123",
+    "port": 1645
+  },
+  {
+    "alias": "srv-prod",
+    "host": "10.0.0.50",
+    "user": "root",
+    "port": 22
+  }
+]

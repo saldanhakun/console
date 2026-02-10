@@ -1,0 +1,36 @@
+#!/bin/bash
+# bin/ssh-sync - Sincroniza o arquivo ~/.ssh/config com base em um JSON
+
+# Carrega o Toolbelt
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SOURCE_DIR/../bootstrap.sh" ]; then
+    source "$SOURCE_DIR/../bootstrap.sh"
+else
+    echo "[ERRO] Não foi possível encontrar o bootstrap.sh"
+    exit 1
+fi
+
+show_help() {
+    _showHelp "ssh-sync" \
+        "Sincroniza as configurações de hosts SSH a partir de um arquivo JSON." \
+        "--json=ARQUIVO    Especifica o arquivo JSON de origem (Padrão: ~/.console/ssh_hosts.json)" \
+        "--help            Exibe esta mensagem de ajuda"
+}
+
+JSON_FILE="$HOME/.console/ssh_hosts.json"
+
+for arg in "$@"; do
+    case $arg in
+        --json=*) JSON_FILE=$(_getArgValue "$arg") ;;
+        --help) show_help; exit 0 ;;
+    esac
+done
+
+if [ ! -f "$JSON_FILE" ]; then
+    _error "Arquivo JSON não encontrado: $JSON_FILE"
+    _info "Crie um arquivo JSON com o seguinte formato:"
+    echo '[{"alias": "meu-servidor", "host": "1.2.3.4", "user": "root", "port": 22}]'
+    exit 1
+fi
+
+_sshSync "$JSON_FILE"

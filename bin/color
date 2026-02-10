@@ -1,0 +1,45 @@
+#!/bin/bash
+# bin/color - Utilitário para imprimir texto colorido no console
+
+# Carrega o Toolbelt
+SOURCE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SOURCE_DIR/../bootstrap.sh" ]; then
+    source "$SOURCE_DIR/../bootstrap.sh"
+else
+    echo "[ERRO] Não foi possível encontrar o bootstrap.sh"
+    exit 1
+fi
+
+show_help() {
+    _showHelp "color" \
+        "Imprime uma mensagem com a cor especificada." \
+        "<cor> <mensagem>     Imprime a mensagem na cor informada" \
+        "- <cor>               Lê a mensagem do STDIN e imprime na cor informada"
+}
+
+if [ "$#" -lt 1 ] || [[ "$1" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
+colorName="$1"
+message="$2"
+
+if [ "$colorName" == "-" ]; then
+    # Se o primeiro argumento for '-', o segundo é a cor e a mensagem vem do stdin
+    colorName="$2"
+    message="$(cat -)"
+    if [ -z "$colorName" ]; then
+        _error "Cor não informada para leitura do STDIN."
+        exit 1
+    fi
+    _color "$colorName" "$message"
+    echo # Adiciona uma quebra de linha ao final
+elif [ "$#" -eq 2 ]; then
+    _color "$colorName" "$message"
+    echo # Adiciona uma quebra de linha ao final
+else
+    _error "Número inválido de argumentos."
+    show_help
+    exit 1
+fi
