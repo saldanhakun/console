@@ -1,0 +1,112 @@
+ui:
+   name: "Interface com Usuário"
+   description: "Definições de sintaxe para a interface com usuário"
+   tables:
+      ansiColors: "Tabela de cores ANSI"
+      utfIcons: "Tabela de ícones unicode"
+   private:
+      - input.sh
+      - commands.sh
+   public:
+      color:
+         title: "Imprime um texto em cores se suportado"
+         arguments:
+            color:
+               required: true
+               multiple: false
+               type: ui.ansiColors
+               description: "Cor a ser impressa"
+            text:
+               required: true
+               multiple: false
+               description: "Texto a ser impresso"
+         options:
+            noEscape:
+               required: false
+               multiple: false
+               type: boolean
+               shortcut: 'e'
+               description: "Desabilita a sequência de escape ANSI"
+            newLine:
+               required: false
+               multiple: false
+               type: boolean
+               shortcut: 'n'
+               description: "Adiciona um novo linha no final do texto"
+      success:
+         title: "Imprime um texto como mensagem de sucesso"
+         parent: ui.color
+         arguments:
+            color: remove
+      error:
+         title: "Imprime um texto como mensagem de erro"
+         parent: ui.color
+         arguments:
+            color: remove
+      warning:
+         title: "Imprime um texto como mensagem de aviso"
+         parent: ui.color
+         arguments:
+            color: remove
+      info:
+         title: "Imprime um texto como mensagem informativa"
+         parent: ui.color
+         arguments:
+            color: remove
+      ask:
+         title: "Solicita ao usuário uma resposta"
+         arguments:
+            prompt:
+               required: true
+               multiple: false
+               description: "Mensagem a ser exibida para o usuário"
+            default:
+               required: false
+               multiple: false
+               description: "Valor para user em respostas vazias"
+         options:
+            required:
+               required: false
+               multiple: false
+               shortcut: 'r'
+               type: boolean
+               description: "Um valor precisa ser informado"
+            color:
+               required: false
+               multiple: false
+               shortcut: 'c'
+               type: ui.ansiColors
+               default: 'input'
+               description: "Utiliza uma cor para o prompt (padrão: input, use none dispensar cor)"
+            integer:
+               required: false
+               multiple: false
+               type: integer
+               description: "Exige que a resposta seja um número inteiro"
+            float:
+               required: false
+               multiple: false
+               type: float
+               description: "Exige que a resposta seja um número"
+      confirm:
+         title: "Solicita ao usuário uma confirmação"
+         arguments:
+            prompt:
+               required: true
+               multiple: false
+               description: "Mensagem a ser exibida para o usuário"
+         options:
+            strict:
+               required: false
+               multiple: false
+               shortcut: 's'
+               type: boolean
+               description: "Exige que o usuário responda de forma inequívoca"
+            color:
+               required: false
+               multiple: false
+               shortcut: 'c'
+               type: ui.ansiColors
+               default: 'input'
+               description: "Utiliza uma cor para o prompt (padrão: input, use none dispensar cor)"
+

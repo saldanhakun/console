@@ -17,24 +17,27 @@ Uma coleção robusta de funções e scripts Bash para administração de sistem
 - **Sudo Inteligente**: Detecção automática de privilégios e elevação.
 - **Argumentos Robustos**: Padronização de parsing de argumentos com suporte a `--help` e bash-completion.
 
-## Uso
+## Uso Modular
 
-Para usar estas funções em seus scripts, carregue o arquivo `bootstrap.sh`:
+O projeto foi refatorado para usar uma estrutura modular com compilação:
 
 ```bash
-source /path/to/console-toolbelt/bootstrap.sh
+# Compilar os módulos
+./tools/compile.sh
 
-_info "Iniciando implantação..."
-if _confirm "Deseja continuar?"; then
-    _checkWebStack
-fi
+# Usar um módulo compilado
+source dist/ui.sh
+_box @ success "Olá Mundo"
 ```
 
 ## Visão Geral do Diretório
 
-- `bin/`: Contém executáveis independentes que delegam para funções da biblioteca.
-- `lib/`: O coração do projeto. Carregue estes arquivos para ganhar acesso às funções `_`.
-- `completions/`: Scripts para habilitar o preenchimento automático (Tab) para comandos customizados.
+- `src/`: Código fonte dos módulos (YAML, SH).
+- `dist/`: Scripts compilados e prontos para uso.
+- `tools/`: Ferramentas de build e desenvolvimento (ex: compilador).
+- `tests/`: Baterias de testes unitários e funcionais.
+- `bin/`: Contém executáveis independentes.
+- `lib/`: Bibliotecas legadas (em processo de migração para `src/`).
 
 ## Como Estender
 
